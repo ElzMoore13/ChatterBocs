@@ -8,7 +8,7 @@ const ChatBar = (props) => {
  }
 
   const sendMessageUp = function(event){
-    if (event.keyCode == 13) {
+    if (event.key === 'Enter') {
       const newMessageObject = {
         id: generateUniqueId(),
         username: document.getElementById('user').value,
