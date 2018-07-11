@@ -21,7 +21,7 @@ class App extends Component {
                     username: "Anonymous",
                     content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
                   },
-                ]
+                ],
     }
 
   }
@@ -30,10 +30,17 @@ class App extends Component {
     const oldMessages = this.state.messages;
     const updatedMessages = [...oldMessages, newMessage];
     this.setState({messages: updatedMessages})
+    this.socket.send(JSON.stringify(newMessage))
   }
 
   componentDidMount() {
     console.log("componentDidMount <App />");
+
+    let newSocket = new WebSocket('ws://localhost:3001/');
+    this.socket = newSocket;
+    console.log('Connected to Server')
+
+
     setTimeout(() => {
       console.log("Simulating incoming message");
       // Add a new message to the list of messages in the data store
@@ -42,6 +49,7 @@ class App extends Component {
       // Update the state of the app component.
       // Calling setState will trigger a call to render() in App and all child components.
       this.setState({messages: messages})
+
     }, 3000);
   }
 
