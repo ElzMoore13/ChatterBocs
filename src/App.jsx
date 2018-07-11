@@ -10,35 +10,41 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-                  {
-                    id: 1,
-                    username: "Bob",
-                    content: "Has anyone seen my marbles?",
-                  },
-                  {
-                    id: 2,
-                    username: "Anonymous",
-                    content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-                  },
-                ],
+      messages: [],
     }
 
   }
-
+  //
   addMessage(newMessage){
-    const oldMessages = this.state.messages;
-    const updatedMessages = [...oldMessages, newMessage];
-    this.setState({messages: updatedMessages})
     this.socket.send(JSON.stringify(newMessage))
   }
+
+  updateUser(newUser){
+    this.setState({currentUser: newUser})
+    setTimeout(() => {
+      console.log(this.state.currentUser)
+    }, 1000)
+  }
+
 
   componentDidMount() {
     console.log("componentDidMount <App />");
 
-    let newSocket = new WebSocket('ws://localhost:3001/');
+    const newSocket = new WebSocket('ws://localhost:3001/');
     this.socket = newSocket;
-    console.log('Connected to Server')
+    console.log('Connected to Server');
+
+    newSocket.onmessage = event => {
+
+      // console.log(JSON.parse(event.data));
+
+      const newMessage = JSON.parse(event.data)
+      const oldMessages = this.state.messages;
+      const updatedMessages = [...oldMessages, newMessage];
+
+      this.setState({messages: updatedMessages})
+    }
+
 
 
     setTimeout(() => {
@@ -60,7 +66,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
         <MessageList messages={this.state.messages}/>
-        <ChatBar sendMessage={this.addMessage.bind(this)} currentUser={this.state.currentUser}/>
+        <ChatBar updateUser={this.updateUser.bind(this)} sendMessage={this.addMessage.bind(this)} currentUser={this.state.currentUser}/>
       </div>
     );
   }

@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 
+const newId = require('uuid/v4');
+
 const ChatBar = (props) => {
-  // to generate unique ids
-  const generateUniqueId = function(){
-   const uniqueKey = (Math.random()*1000000000).toFixed(0);
-   return uniqueKey;
- }
 
   const sendMessageUp = function(event){
     if (event.key === 'Enter') {
       const newMessageObject = {
-        id: generateUniqueId(),
+        id: newId(),
         username: document.getElementById('user').value,
         content: event.target.value,
       }
@@ -21,9 +18,17 @@ const ChatBar = (props) => {
     }
   }
 
+  const updateCurrUser = function(event) {
+    if (event.key === 'Enter') {
+      props.updateUser(document.getElementById('user').value)
+    } else {
+      return false
+    }
+  }
+
   return(
     <footer className="chatbar">
-      <input id='user' className="chatbarUsername" type='text' defaultValue={props.currentUser.name}/>
+      <input onKeyDown={updateCurrUser} id='user' className="chatbarUsername" type='text' defaultValue={props.currentUser.name}/>
       <input onKeyDown={sendMessageUp} className="chatbarMessage" placeholder="Type a message and hit ENTER" />
     </footer>
   );
