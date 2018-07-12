@@ -6,7 +6,7 @@ const makeMessage = (messages) => {
   const multiMessages = messages.map((message) =>{
     switch(message.type){
       case('incomingMessage'):
-        return(<Message key={message.id} message={message} />)
+        return(<Message color={message.color} key={message.id} message={message} />)
         break;
       case('incomingNotification'):
         return(<Notification key={message.id} notification={message}/>)

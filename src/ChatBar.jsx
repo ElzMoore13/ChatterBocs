@@ -11,6 +11,7 @@ const ChatBar = (props) => {
         id: newId(),
         username: document.getElementById('user').value,
         content: event.target.value,
+        color: props.currentUser.color,
       }
       event.target.value = '';
       props.sendMessage(newMessageObject);

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
+const randomColor = require('random-color');
+
 // let idIncrementor = 3;
 
 
@@ -9,7 +11,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {
+                      name: 'Anonymous',
+                      color: '#000',
+                   },
       messages: [],
       numUsers: 0,
     }
@@ -21,7 +26,11 @@ class App extends Component {
   }
 
   updateUser(newUser, newMessage){
-    this.setState({currentUser: {name: newUser}})
+    const newCurrUser = {
+      name: newUser,
+      color: this.state.currentUser.color,
+    }
+    this.setState({currentUser: newCurrUser})
     this.socket.send(JSON.stringify(newMessage))
     setTimeout(() => {
       console.log(this.state.currentUser)
@@ -43,7 +52,12 @@ class App extends Component {
       switch(data.type){
 
         case('userCount'):
-          this.setState({numUsers: data.content})
+          this.setState({numUsers: data.num})
+          const newCurrUser = {
+            name: this.state.currentUser.name,
+            color: data.color
+          }
+          this.setState({currentUser: newCurrUser})
           break;
         default:
           const newMessage = data
