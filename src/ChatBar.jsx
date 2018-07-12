@@ -7,6 +7,7 @@ const ChatBar = (props) => {
   const sendMessageUp = function(event){
     if (event.key === 'Enter') {
       const newMessageObject = {
+        type: 'postMessage',
         id: newId(),
         username: document.getElementById('user').value,
         content: event.target.value,
@@ -20,7 +21,13 @@ const ChatBar = (props) => {
 
   const updateCurrUser = function(event) {
     if (event.key === 'Enter') {
-      props.updateUser(document.getElementById('user').value)
+      const newName = document.getElementById('user').value;
+      const newMessageObject = {
+        type: 'postNotification',
+        id: newId(),
+        content: `${props.currentUser.name} changed their name to ${newName}`
+      }
+      props.updateUser(newName, newMessageObject);
     } else {
       return false
     }

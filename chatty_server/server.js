@@ -27,17 +27,45 @@ wss.broadcast = function broadcast(data) {
 // When a client connects they are assigned a socket, represented by the ws parameter in the callback
 wss.on('connection', (ws) => {
   console.log('Client connected');
+  console.log('Num Users: ', wss.clients.size)
+  const numUsers = {
+    type: 'userCount',
+    content: wss.clients.size,
+  }
+  wss.broadcast(JSON.stringify(numUsers));
 
   ws.onmessage = function (event) {
-    const messContent = JSON.parse(event.data).content;
-    const messUsername = JSON.parse(event.data).username;
-    console.log(`${messContent} sent from ${messUsername}`)
 
+    const data = JSON.parse(event.data)
+    const messContent = data.content;
+
+    switch(data.type){
+      case('postMessage'):
+        const messUsername = data.username;
+        data.type = 'incomingMessage'
+        console.log(`${messContent} sent from ${messUsername}`)
+        break;
+      case('postNotification'):
+        data.type = 'incomingNotification'
+        console.log(`${messContent}`)
+        break;
+      default:
+        throw new Error(`did not recognize the event type...${data.type}`);
+    }
     //broadcast to others
-    wss.broadcast(event.data);
+    wss.broadcast(JSON.stringify(data));
+
   }
 
 
   //Set up a callback for when a client closes the socket (usually they close their browser)
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => {
+    console.log('Client disconnected');
+    console.log('Num Users: ', wss.clients.size)
+    const numUsers = {
+      type: 'userCount',
+      content: wss.clients.size,
+    }
+    wss.broadcast(JSON.stringify(numUsers));
+  });
 });
