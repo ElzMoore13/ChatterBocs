@@ -68,26 +68,16 @@ class App extends Component {
       }
     }
 
-
-
-    // setTimeout(() => {
-    //   console.log("Simulating incoming message");
-    //   // Add a new message to the list of messages in the data store
-    //   const newMessage = {id: 3, type: 'postMessage', username: "Michelle", content: "Hello there!"};
-    //   // const messages = this.state.messages.concat(newMessage)
-    //   this.socket.send(JSON.stringify(newMessage))
-    //   // Update the state of the app component.
-    //   // Calling setState will trigger a call to render() in App and all child components.
-    //   // this.setState({messages: messages})
-    //
-    // }, 3000);
   }
 
   render() {
     return (
       <div>
         <nav className="navbar">
-          <a href="/" className="navbar-brand">Chatty</a>
+          <a href="/" className="navbar-brand">ChatterBocs</a>
+          <span className='logo'>
+            <img src='../styles/LeafPic.png'/>
+          </span>
           <p className='onlineCount'>Users Online: {this.state.numUsers}</p>
         </nav>
         <MessageList messages={this.state.messages}/>
