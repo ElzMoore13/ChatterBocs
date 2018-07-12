@@ -74,7 +74,7 @@ class App extends Component {
     return (
       <div>
         <nav className="navbar">
-          <a href="/" className="navbar-brand">ChatterBocs</a>
+          <a href="/" className="navbar-brand">Chatter-Bocs</a>
           <span className='logo'>
             <img src='../styles/LeafPic.png'/>
           </span>

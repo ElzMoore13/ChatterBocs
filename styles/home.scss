@@ -1,17 +1,18 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Nanum+Gothic');
 
 $main-color: #3c2f2f;
 $accent-color-light: #fff4e6;
 $accent-color-dark: #854442;
+$chatterBocs-font: 'Indie Flower', cursive;
+$text-font: 'Nanum Gothic', sans-serif;
 
-// h1 {
-//       color: tomato;
-//     }
+
 body {
       background: $accent-color-light;
       color: #000;
-      font-family: 'Open Sans', sans-serif;
+      font-family: $text-font;
       font-size: 14px;
       margin: 70px 0;
     }
@@ -94,6 +95,7 @@ body {
         height: 60px;
         line-height: 60px;
         padding: 0 10px;
+        font-family: $chatterBocs-font;
         text-decoration: none;
       }
 
