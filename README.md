@@ -1,45 +1,30 @@
-<!-- React Boilerplate
-=====================
+# Chatter-Bocs Chat Application
 
-A minimal and light dev environment for ReactJS.
+Chatter-Bocs is a real-time chat application built to explore ReactJS, as well as Webpack with Babel, JSX and ES6, and WebSockets
 
-### Usage
+## Dependencies
+- babel-core
+- babel-loader
+- babel-preset-es2015
+- babel-preset-react
+- css-loader
+- node-sass
+- sass-loader
+- sockjs-client
+- style-loader
+- webpack
+- webpack-dev-server
+- react
+- react-dom
+- express
+- ws
 
-Clone the boilerplate and create your own git repo.
+## Final Product
+!['ScreenShot of Chatter-Bocs Page']()
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
 
-Install the dependencies and start the server.
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
-
-### Static Files
-
-You can store static files like images, fonts, etc in the `build` folder.
-
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
-
-### Dependencies
-
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server) -->
+## Getting Started
+- Install all dependencies with 'npm install' within the main folder to run the client app, and within the chatty-server folder to run the websocket server
+- Run the development 'npm start' within the main folder, then run 'npm start' within chatty-server folder
+- Open http://localhost:3000

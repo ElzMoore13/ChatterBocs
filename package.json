@@ -1,14 +1,14 @@
 {
-  "name": "react-simple-boilerplate",
+  "name": "chatterbocs",
   "version": "1.0.0",
-  "description": "Simple and lightweight Boilerplate for ReactJS projects",
+  "description": "Chatter-Bocs is a real-time chat application built to explore ReactJS, as well as Webpack with Babel, JSX and ES6, and WebSockets",
   "scripts": {
     "lint": "eslint --ext .jsx,.js src",
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/noahlotzer/react-simple-boilerplate.git"
+    "url": "git+https://github.com/MapleMocha/ChatterBocs.git"
   },
   "keywords": [
     "react",
@@ -19,12 +19,12 @@
     "edit",
     "webpack"
   ],
-  "author": "Eliza Moore",
-  "license": "",
+  "author": "",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MapleMocha/ChatterBocs"
+    "url": "https://github.com/MapleMocha/ChatterBocs/issues"
   },
-  "homepage": "https://github.com/MapleMocha/ChatterBocs",
+  "homepage": "https://github.com/MapleMocha/ChatterBocs#readme",
   "engines": {
     "node": ">=6.0.0"
   },
