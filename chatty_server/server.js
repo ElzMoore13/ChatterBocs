@@ -2,7 +2,6 @@ const express = require('express');
 const SocketServer = require('ws').Server;
 const newId = require('uuid/v4');
 const WebSocket = require('ws');
-const randomColor = require('random-color');
 
 const PORT = 3001;
 
@@ -15,6 +14,15 @@ const server = express()
 //Create the WebSockets Server
 const wss = new SocketServer({ server });
 
+//made array of appropriate text colors (no whites or bright yellows)
+const textColors = ['#0066FF',
+'#330099', '#CC6600', '#006600', '#336666', '#660000', '#000066', '#003333', '#660066', '#6699FF', '#993366', '#CC3333', '#9966CC', '#999900']
+
+const randomColor = () => {
+  let index = Math.round(Math.random()*14)
+  return textColors[index];
+}
+
 //helper function to calculate and broadcast number of online users
 const updateNumUsers = (updateType, numClients) => {
   const numUsers = {
@@ -22,7 +30,7 @@ const updateNumUsers = (updateType, numClients) => {
     num: numClients,
   }
   if(updateType === 'userAdded'){
-    let newColor = randomColor().hexString();
+    let newColor = randomColor()
     numUsers.color = newColor;
   }
   wss.broadcast(JSON.stringify(numUsers));
