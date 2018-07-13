@@ -3,6 +3,8 @@ import Message from './Message.jsx';
 import Notification from './Notifications.jsx';
 
 const makeMessage = (messages) => {
+
+  //function to respectively render each message/notification component in array of messages
   const multiMessages = messages.map((message) =>{
     switch(message.type){
       case('incomingMessage'):

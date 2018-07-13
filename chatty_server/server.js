@@ -15,7 +15,20 @@ const server = express()
 //Create the WebSockets Server
 const wss = new SocketServer({ server });
 
-//broadcast to everyone
+//helper function to calculate and broadcast number of online users
+const updateNumUsers = (updateType, numClients) => {
+  const numUsers = {
+    type: updateType,
+    num: numClients,
+  }
+  if(updateType === 'userAdded'){
+    let newColor = randomColor().hexString();
+    numUsers.color = newColor;
+  }
+  wss.broadcast(JSON.stringify(numUsers));
+}
+
+//helper function to broadcast to everyone
 wss.broadcast = function broadcast(data) {
   wss.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
@@ -27,16 +40,11 @@ wss.broadcast = function broadcast(data) {
 //Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by the ws parameter in the callback
 wss.on('connection', (ws) => {
-  console.log('Client connected');
-  console.log('Num Users: ', wss.clients.size)
-  let newColor = randomColor().hexString();
-  const numUsers = {
-    type: 'userCount',
-    num: wss.clients.size,
-    color: newColor,
-  }
-  wss.broadcast(JSON.stringify(numUsers));
 
+  //update number of online users displayed on page
+  updateNumUsers('userAdded', wss.clients.size);
+
+  //listen for messages and notifications to be posted, to then be sent to app
   ws.onmessage = function (event) {
 
     const data = JSON.parse(event.data)
@@ -44,13 +52,10 @@ wss.on('connection', (ws) => {
 
     switch(data.type){
       case('postMessage'):
-        const messUsername = data.username;
         data.type = 'incomingMessage'
-        console.log(`${messContent} sent from ${messUsername}`)
         break;
       case('postNotification'):
         data.type = 'incomingNotification'
-        console.log(`${messContent}`)
         break;
       default:
         throw new Error(`did not recognize the event type...${data.type}`);
@@ -64,11 +69,9 @@ wss.on('connection', (ws) => {
   //Set up a callback for when a client closes the socket (usually they close their browser)
   ws.on('close', () => {
     console.log('Client disconnected');
-    console.log('Num Users: ', wss.clients.size)
-    const numUsers = {
-      type: 'userCount',
-      content: wss.clients.size,
-    }
-    wss.broadcast(JSON.stringify(numUsers));
+
+    //update number of online users displayed on page
+    updateNumUsers('userLeft', wss.clients.size);
+
   });
 });

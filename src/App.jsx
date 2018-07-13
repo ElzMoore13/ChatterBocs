@@ -12,9 +12,9 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: {
-                      name: 'Anonymous',
-                      color: '#000',
-                   },
+          name: 'Anonymous',
+          color: '#000',
+        },
       messages: [],
       numUsers: 0,
     }
@@ -37,21 +37,34 @@ class App extends Component {
     }, 1000)
   }
 
+  updateMessages(newMessage){
+    const oldMessages = this.state.messages;
+    const updatedMessages = [...oldMessages, newMessage];
+
+    this.setState({messages: updatedMessages})
+  }
+
 
   componentDidMount() {
     console.log("componentDidMount <App />");
 
+    // connect with websocket
     const newSocket = new WebSocket('ws://localhost:3001/');
     this.socket = newSocket;
+
     console.log('Connected to Server');
 
+
+    //listen for broadcasted message from websocket server
     newSocket.onmessage = event => {
 
       const data = JSON.parse(event.data);
 
+      //check type of message to handle accordingly
       switch(data.type){
 
-        case('userCount'):
+        case('userAdded'):
+          //update color and number of users displayed after new client connected
           this.setState({numUsers: data.num})
           const newCurrUser = {
             name: this.state.currentUser.name,
@@ -59,12 +72,20 @@ class App extends Component {
           }
           this.setState({currentUser: newCurrUser})
           break;
+        case('userLeft'):
+          //update number of users displayed after client disconnect
+          this.setState({numUsers: data.num})
+          break;
+        case('incomingMessage'):
+          //add the message to the state.messages
+          this.updateMessages(data);
+          break;
+        case('incomingNotification'):
+          //add the notifications to the state.messages
+          this.updateMessages(data);
+          break;
         default:
-          const newMessage = data
-          const oldMessages = this.state.messages;
-          const updatedMessages = [...oldMessages, newMessage];
-
-          this.setState({messages: updatedMessages})
+          throw new Error(`did not recognize the event type...${data.type}`);
       }
     }
 

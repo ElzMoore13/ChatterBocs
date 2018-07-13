@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 const Notification = (props) => {
+  //display the notification content
   return(<div className="message system">
             <span className="notification-content">
               {props.notification.content}
