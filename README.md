@@ -20,7 +20,7 @@ Chatter-Bocs is a real-time chat application built to explore ReactJS, as well a
 - ws
 
 ## Final Product
-!['ScreenShot of Chatter-Bocs Page']()
+!['ScreenShot of Chatter-Bocs Page'](https://github.com/MapleMocha/ChatterBocs/tree/master/docs)
 
 
 
