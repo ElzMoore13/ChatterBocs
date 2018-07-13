@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
-const randomColor = require('random-color');
 
 // let idIncrementor = 3;
 
@@ -13,7 +12,7 @@ class App extends Component {
     this.state = {
       currentUser: {
           name: 'Anonymous',
-          color: '#000',
+          color: null,
         },
       messages: [],
       numUsers: 0,
@@ -32,9 +31,6 @@ class App extends Component {
     }
     this.setState({currentUser: newCurrUser})
     this.socket.send(JSON.stringify(newMessage))
-    setTimeout(() => {
-      console.log(this.state.currentUser)
-    }, 1000)
   }
 
   updateMessages(newMessage){
@@ -46,7 +42,7 @@ class App extends Component {
 
 
   componentDidMount() {
-    console.log("componentDidMount <App />");
+    console.log('componentDidMount <App />');
 
     // connect with websocket
     const newSocket = new WebSocket('ws://localhost:3001/');
@@ -63,29 +59,36 @@ class App extends Component {
       //check type of message to handle accordingly
       switch(data.type){
 
-        case('userAdded'):
+        case('userAdded'):{
           //update color and number of users displayed after new client connected
           this.setState({numUsers: data.num})
-          const newCurrUser = {
-            name: this.state.currentUser.name,
-            color: data.color
+          if(!this.state.currentUser.color){
+            const newCurrUser = {
+              name: this.state.currentUser.name,
+              color: data.color
+            }
+            this.setState({currentUser: newCurrUser})
           }
-          this.setState({currentUser: newCurrUser})
           break;
-        case('userLeft'):
+        }
+        case('userLeft'):{
           //update number of users displayed after client disconnect
           this.setState({numUsers: data.num})
           break;
-        case('incomingMessage'):
+        }
+        case('incomingMessage'):{
           //add the message to the state.messages
           this.updateMessages(data);
           break;
-        case('incomingNotification'):
+        }
+        case('incomingNotification'):{
           //add the notifications to the state.messages
           this.updateMessages(data);
           break;
-        default:
+        }
+        default:{
           throw new Error(`did not recognize the event type...${data.type}`);
+        }
       }
     }
 
@@ -94,8 +97,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar">
-          <a href="/" className="navbar-brand">Chatter-Bocs</a>
+        <nav className='navbar'>
+          <a href='/' className='navbar-brand'>Chatter-Bocs</a>
           <span className='logo'>
             <img src='../styles/LeafPic.png'/>
           </span>

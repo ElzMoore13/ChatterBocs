@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 const newId = require('uuid/v4');
 
@@ -23,7 +23,7 @@ const ChatBar = (props) => {
   }
 
   //function calling on prop function to update the name stored in currentUser when name textarea is clicked off focus (name must not be blank, and cannot be equal to what it was before or no change will happen)
-  const updateCurrUser = function(event) {
+  const updateCurrUser = function() {
       const newName = document.getElementById('user').value;
       if(newName.length > 0 && newName != props.currentUser.name){
         const newMessageObject = {
